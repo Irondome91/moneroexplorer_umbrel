@@ -26,7 +26,7 @@ Deno.addSignalListener("SIGTERM", shutdown);
 console.log("[.] Starting web server...");
 try {
   if (! Deno.env.get("NODE")) {
-    console.error("[!] You did not specify a node, using a list of remote nodes from nodes.json");
+    console.error("[!] Connecting to umbrel's default node as fallback, on restricted rpc port.");
   }
   await WalletService.initialize();
 } catch (_error) {
@@ -74,14 +74,14 @@ Deno.serve(async (req) => {
       const blocks = await getLatestBlocks();
       const network = await getNetworkInfo();
       const mempool = await getMempool();
-      const html = await nunjucks.render("nojs/home.html", {
+      const html = nunjucks.render("nojs/home.html", {
         blocks: blocks,
         network: network,
         mempool: mempool
       })
       return returnHTML(html);
     }
-    const html = await nunjucks.render("pages/home.html")
+    const html = nunjucks.render("pages/home.html")
     return returnHTML(html);
   }
 
@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
       const html = await getTxHtml(params.id || '', "nojs/tx.html");
       return returnHTML(html);
     }
-    const html = await nunjucks.render("pages/tx.html", {
+    const html = nunjucks.render("pages/tx.html", {
       hash: params.id
     })
     return returnHTML(html);
@@ -128,7 +128,7 @@ Deno.serve(async (req) => {
       const html = await getBlockHtml(params.id || '', "nojs/block.html");
       return returnHTML(html);
     }
-    const html = await nunjucks.render("pages/block.html", {
+    const html = nunjucks.render("pages/block.html", {
       id: params.id
     })
     return returnHTML(html);
@@ -161,7 +161,7 @@ Deno.serve(async (req) => {
   const network_info = new URLPattern({ pathname: "/htmx/network_info" }).exec(url)
   if (network_info && ! nojs) {
     const network = await getNetworkInfo();
-    const html = await nunjucks.render("htmx/network_info.html", {
+    const html = nunjucks.render("htmx/network_info.html", {
       network: network
     });
     return returnHTML(html);
@@ -171,7 +171,7 @@ Deno.serve(async (req) => {
   const mempool_summary = new URLPattern({ pathname: "/htmx/mempool_summary" }).exec(url)
   if (mempool_summary && ! nojs) {
     const mempool = await getMempool();
-    const html = await nunjucks.render("htmx/mempool_summary.html", {
+    const html = nunjucks.render("htmx/mempool_summary.html", {
       mempool: mempool
     })
     return returnHTML(html);
@@ -181,14 +181,14 @@ Deno.serve(async (req) => {
   const recent_blocks = new URLPattern({ pathname: "/htmx/recent_blocks" }).exec(url)
   if (recent_blocks && ! nojs) {
     const blocks = await getLatestBlocks();
-    const html = await nunjucks.render("htmx/recent_blocks.html", {
+    const html = nunjucks.render("htmx/recent_blocks.html", {
       blocks: blocks
     })
     return returnHTML(html);
   }
 
   // 404 if no other hits
-  const html = await nunjucks.render("error.html", {
+  const html = nunjucks.render("error.html", {
     message: "404. There is no page here."
   })
   return returnHTML(html);

@@ -29,12 +29,10 @@ export async function getTxHtml(id: string, template: string): Promise<string> {
         tx_json: tx_json,
         current_height: currentInfo.result.height
       }
-      const html = await nunjucks.render(template, data)
+      const html = nunjucks.render(template, data)
       return html;
     } else {
-      const html = await nunjucks.render("error.html", {
-        message: "This is not a valid transaction."
-      })
+      const html = "<div class=\"box\" style=\"background-color: rgba(219, 0, 0, 0.25);\"><h2>There Was a Problem</h2><p>This is not a valid transaction.</p></div>";
       return html;
     }
 }
@@ -46,7 +44,7 @@ export async function getBlockHtml(id: string, template: string): Promise<string
     });
     const data = res.result;
     const block_json = JSON.parse(data.json);
-    const html = await nunjucks.render(template, {
+    const html = nunjucks.render(template, {
         block: data,
         block_json: block_json,
         date: new Date(data.block_header.timestamp * 1_000).toString(),
@@ -58,7 +56,7 @@ export async function getBlockHtml(id: string, template: string): Promise<string
 export async function getTxReceiptHtml(id: string, address: string, txkey: string, details: string|null): Promise<string> {
     const checkKey: CheckTxKey = await WalletService.checkTxKey(id, txkey, address);
     if (checkKey.status === "success") {
-        const html = await nunjucks.render("pages/receipt.html", {
+        const html = nunjucks.render("pages/receipt.html", {
             confirmations: checkKey.data?.confirmations,
             hash: id,
             address: address,
@@ -67,7 +65,7 @@ export async function getTxReceiptHtml(id: string, address: string, txkey: strin
         })
         return html;
     } else {
-        const html = await nunjucks.render("error.html", {
+        const html = nunjucks.render("error.html", {
           message: "Your recipient address and secret key are invalid for this transaction."
         })
         return html;
@@ -102,7 +100,7 @@ export async function getSearchHtml(searchQuery: string|null): Promise<Response>
             }
         })
     }
-    const html = await nunjucks.render("error.html", {
+    const html = nunjucks.render("error.html", {
         message: "No results found. Not sure what you are searching for."
     })
     return new Response(html, {
@@ -112,7 +110,7 @@ export async function getSearchHtml(searchQuery: string|null): Promise<Response>
 
 export async function getLatestBlocks(): Promise<Block[]> {
     const endHeight = NodeService.getCache("get_info").result.height - 1;
-    const startHeight = endHeight - 10;
+    const startHeight = endHeight - 9;
     const params = {"start_height": startHeight, "end_height": endHeight}
     const data = await NodeService.make_json_rpc_request("get_block_headers_range", params)
     const blockHeaders = data.result.headers
@@ -163,7 +161,7 @@ export async function getMempool(): Promise<Mempool> {
         new_tx.fee = moneroTs.MoneroUtils.atomicUnitsToXmr(tx_json.rct_signatures.txnFee)
       }
       if (tx.receive_time === 0) {
-        new_tx.age = "?";
+        new_tx.age = 0;
       }
       txes.push(new_tx)
     }
