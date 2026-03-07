@@ -3,7 +3,7 @@
     <div class="transaction-details">
         <p><strong>TX Hash</strong>: {{ hash }}</p>
         {% if confirmations > 0 %}
-            <p><strong>Mined in block</strong> <a href="/block/{{ height }}">{{ height }}</a> at {{ date }} ({{ timestamp }})</p>
+            <p><strong>Mined in block</strong> <a href="/block/{{ height }}">{{ height }}</a> at {{ date }}</p>
             <p><strong>Confirmations</strong>: {{ confirmations }}</p>
         {% else %}
             <p>Waiting to be mined to a block.</p>
