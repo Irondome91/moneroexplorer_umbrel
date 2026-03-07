@@ -1,5 +1,5 @@
 # Build and compile the Deno application
-FROM denoland/deno:2.6.3 AS builder
+FROM denoland/deno:2.7.4 AS builder
 WORKDIR /app
 COPY deno.json deno.lock package.json ./
 RUN deno install

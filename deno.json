@@ -5,7 +5,7 @@
     "test": "deno test --allow-all"
   },
   "imports": {
-    "monero-ts": "npm:monero-ts@^0.11.3",
+    "monero-ts": "npm:monero-ts@^0.11.8",
     "nunjucks": "npm:nunjucks@^3.2.4"
   },
   "compilerOptions": {
