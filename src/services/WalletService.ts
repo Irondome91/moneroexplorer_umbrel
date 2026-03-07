@@ -6,13 +6,16 @@ export class WalletService {
   private static wallet: any = null;
 
   static async initialize(): Promise<void> {
+
     try {
       const node = await NodeService.getNode();
       await NodeService.make_json_rpc_request("get_info")
       this.wallet = await moneroTs.createWalletFull({
         networkType: moneroTs.MoneroNetworkType.MAINNET,
         server: {
-          uri: node
+          uri: node.address,
+          username: node.rpcUsr,
+          password: node.rpcPwd
         }
       });
     } catch (error) {
@@ -68,7 +71,12 @@ export class WalletService {
     
     try {
       const node = await NodeService.getNode();
-      this.wallet.setDaemonConnection(node);
+      
+      this.wallet.setDaemonConnection({
+        uri: node.address,
+        username: node.rpcUsr,
+        password: node.rpcPwd
+      });
     } catch (error) {
       console.error("[!] Failed to set daemon connection:", error);
     }
