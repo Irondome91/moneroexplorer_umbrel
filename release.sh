@@ -5,12 +5,12 @@
 
 set -ex
 
-DH_USER=${1:-Irondome91}
+DH_USER=${1:-irondome91}
 TAG=moneroexplorer
 VERSION=v1.5.0
 
 echo -e "[+] Building ${TAG} multi-arch (amd64 & arm64)"
 docker buildx build --platform linux/amd64,linux/arm64 \
-    -t "${DH_USER}/${TAG}:${VERSION}" \
-    -t "${DH_USER}/${TAG}:latest" \
+    -t "docker.io/${DH_USER}/${TAG}:${VERSION}" \
+    -t "docker.io/${DH_USER}/${TAG}:latest" \
     . --push
