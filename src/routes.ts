@@ -32,8 +32,14 @@ export async function getTxHtml(id: string, template: string): Promise<string> {
       const html = nunjucks.render(template, data)
       return html;
     } else {
-      const html = "<div class=\"box\" style=\"background-color: rgba(219, 0, 0, 0.25);\"><h2>There Was a Problem</h2><p>This is not a valid transaction.</p></div>";
-      return html;
+      if (template.startsWith("nojs")) {
+        const html = nunjucks.render("error.html", { message: "This is not a valid transaction." });
+        return html;
+      }
+      else { 
+        const html = "<div class=\"box\" style=\"background-color: rgba(219, 0, 0, 0.25);\"><h2>There Was a Problem</h2><p>This is not a valid transaction.</p></div>";
+        return html;
+      }
     }
 }
 
