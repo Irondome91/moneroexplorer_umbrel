@@ -49,6 +49,15 @@ nav .button {
     margin: 0 .5em;
 }
 
+.theme-label {
+    display: inline-block;
+    text-align: center;
+    padding: 6px;
+    margin: 0 .5em;
+    border: 2px solid var(--foreground);
+    box-shadow: 4px 4px 0 var(--foreground);
+}
+
 .monero {
     background-color: rgba(255, 102, 0, 1);
 }

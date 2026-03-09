@@ -51,12 +51,14 @@
     <nav>
         <div class="container">
             <div class="row">
-                <a href="/" class="">
-                    <img id="brand-logo" src="/images/moneroblocks.png" alt="Monero Blocks image made by Rando (matrix)" width="100px" />
-                </a>
+                <a href="/" class=""><img id="brand-logo" src="/images/moneroblocks.png" alt="Monero Blocks image made by Rando (matrix)" width="100px" /></a>
                 <span class="title col"><strong>Monero Explorer</strong><span style="font-size: 1rem;"> for umbrelOS</span></span>
                 {% if not nojs %}
                 <a id="theme-toggle" class="button" href="#"><img id="theme-toggle-img" src="" /></a>
+                {% elseif theme === 'light' %}
+                <span class="theme-label"><strong>LIGHT</strong><br>mode</span>
+                {% else %}
+                <span class="theme-label"><strong>DARK</strong><br>mode</span>
                 {% endif %}
             </div>
         </div>
